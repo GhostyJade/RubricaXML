@@ -1,0 +1,14 @@
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\bin\Debug\RubricaXMLViewer.exe.config
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\bin\Debug\RubricaXMLViewer.exe
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\bin\Debug\RubricaXMLViewer.pdb
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.csprojAssemblyReference.cache
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\MainWindow.g.cs
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\App.g.cs
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer_MarkupCompile.cache
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer_MarkupCompile.lref
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\MainWindow.baml
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.g.resources
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.Properties.Resources.resources
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.csproj.GenerateResource.cache
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.exe
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.pdb

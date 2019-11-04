@@ -12,3 +12,19 @@ C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLVi
 C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.csproj.GenerateResource.cache
 C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.exe
 C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.pdb
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\bin\Debug\RubricaXMLViewer.exe.config
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\bin\Debug\RubricaXMLViewer.exe
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\bin\Debug\RubricaXMLViewer.pdb
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.csprojAssemblyReference.cache
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\MainWindow.g.cs
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\App.g.cs
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer_MarkupCompile.cache
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer_MarkupCompile.lref
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\MainWindow.baml
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.g.resources
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.Properties.Resources.resources
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.csproj.GenerateResource.cache
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.exe
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.pdb
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\EntryMaker.g.cs
+H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\EntryMaker.baml

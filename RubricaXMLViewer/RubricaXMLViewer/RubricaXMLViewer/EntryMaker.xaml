@@ -1,0 +1,27 @@
+﻿<Window x:Class="RubricaXMLViewer.EntryMaker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RubricaXMLViewer"
+        mc:Ignorable="d"
+        Title="EntryMaker" Height="450" Width="600">
+    <Grid>
+        <Grid>
+            <Button x:Name="BtnSave" Content="Save" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Margin="252.446,0,264.554,181.524" Click="BtnSave_Click"/>
+        </Grid>
+        <TextBox x:Name="TxtName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="120" Margin="171.525,93.583,0,0"/>
+        <TextBox x:Name="TxtSurname" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Surname" VerticalAlignment="Top" Width="120" Margin="171.525,121.583,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Phone number" VerticalAlignment="Top" Width="120" Margin="171.525,171.525,0,0" x:Name="TxtPhoneText"/>
+        <Expander Header="Expander" HorizontalAlignment="Left" Height="147.816" VerticalAlignment="Top" Width="592" Margin="0,271.184,0,0">
+            <Grid Background="#FFE5E5E5" Height="130">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="83*"/>
+                    <ColumnDefinition Width="17*"/>
+                </Grid.ColumnDefinitions>
+                <DatePicker x:Name="DPBornDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="204.82,32.287,0,0"/>
+                <TextBox x:Name="TxtEmail" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="120" Margin="47.422,57.511,0,0"/>
+            </Grid>
+        </Expander>
+    </Grid>
+</Window>

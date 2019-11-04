@@ -92,4 +92,9 @@ public class AddressBookEntry {
 		this.nickname = nickname;
 	}
 
+	@Override
+	public String toString() {
+		return "Name: " + name + ", Surname: " + surname + ", Phone number: " + phoneNumber;
+	}
+	
 }

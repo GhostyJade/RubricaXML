@@ -15,6 +15,7 @@ namespace RubricaXMLViewer
         public MainWindow()
         {
             InitializeComponent();
+            new EntryMaker().Show();
             Entries.ItemsSource = entries;
         }
     }

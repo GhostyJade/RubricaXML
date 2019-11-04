@@ -9,11 +9,11 @@
     <Grid>
         <Menu VerticalAlignment="Top" Height="18">
             <MenuItem Header="File">
-                <MenuItem Header="Add new contact" />
+                <MenuItem Header="Add new entry" HorizontalAlignment="Left" />
             </MenuItem>
         </Menu>
         <Grid x:Name="Container" Margin="0,18,0,0">
-            <DataGrid x:Name="Entries">
+            <DataGrid x:Name="Entries" HeadersVisibility="None">
                 
             </DataGrid>
         </Grid>

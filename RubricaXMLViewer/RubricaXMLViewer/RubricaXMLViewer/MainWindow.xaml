@@ -13,7 +13,7 @@
             </MenuItem>
         </Menu>
         <Grid x:Name="Container" Margin="0,18,0,0">
-            <DataGrid x:Name="Entries" HeadersVisibility="None">
+            <DataGrid x:Name="Entries">
                 
             </DataGrid>
         </Grid>

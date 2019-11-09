@@ -97,4 +97,6 @@ public class AddressBookEntry {
 		return "Name: " + name + ", Surname: " + surname + ", Phone number: " + phoneNumber;
 	}
 	
+	public void toXML() {}
+	
 }

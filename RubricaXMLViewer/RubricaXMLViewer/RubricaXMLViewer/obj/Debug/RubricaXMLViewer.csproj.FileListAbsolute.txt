@@ -28,3 +28,5 @@ H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer
 H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\RubricaXMLViewer.pdb
 H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\EntryMaker.g.cs
 H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\EntryMaker.baml
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\EntryMaker.g.cs
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\RubricaXMLViewer\obj\Debug\EntryMaker.baml

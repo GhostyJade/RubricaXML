@@ -22,8 +22,9 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
 
         private DataListener()
         {
-            thread = new Thread(new ThreadStart(() => { 
-                while(running)
+            thread = new Thread(new ThreadStart(() =>
+            {
+                while (running)
                 {
                     Recieve();
                 }
@@ -36,23 +37,21 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             remoteAddress = new IPEndPoint(ip, 8192);
             sender = new Socket(remoteAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-            Connect();
+            sender.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+            MessageBox.Show(sender.Poll(-1, SelectMode.SelectWrite).ToString());
         }
 
         public void Connect()
         {
-            if (sender != null)
+            try
             {
-                try
-                {
-                    sender.Connect(remoteAddress);
-                    thread.Start();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString(), "Error on opening connection to the jar process");
-                }
+                running = true;
+                sender.Connect(remoteAddress);
+                thread.Start();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "Error on opening connection to the jar process");
             }
         }
 
@@ -73,7 +72,7 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
 
         private void Process(byte[] data)
         {
-            string message = Encoding.ASCII.GetString(data);
+            string message = Encoding.UTF8.GetString(data);
             if (message.StartsWith(""))
             {
 
@@ -82,10 +81,13 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
 
         public void Send(string message)
         {
-            if (sender.Connected)
-            {
-                int byteSent = sender.Send(Encoding.ASCII.GetBytes(message));
-            }
+            //if (sender.Connected)
+            //{
+            
+            int byteSent = sender.Send(Encoding.ASCII.GetBytes(message));
+            
+            MessageBox.Show(byteSent.ToString());
+            //}
         }
 
         public void Disconnect()

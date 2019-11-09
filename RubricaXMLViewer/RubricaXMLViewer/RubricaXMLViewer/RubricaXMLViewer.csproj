@@ -65,6 +65,7 @@
     </Page>
     <Compile Include="AddressBook\Data\AddressBookEntry.cs" />
     <Compile Include="AddressBook\Data\Network\DataListener.cs" />
+    <Compile Include="AddressBook\Data\Property.cs" />
     <Compile Include="AddressBook\Utils\I18n.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

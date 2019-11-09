@@ -1,17 +1,19 @@
-﻿namespace RubricaXMLViewer.AddressBook.Data
+﻿using System.Collections.Generic;
+
+namespace RubricaXMLViewer.AddressBook.Data
 {
     public class AddressBookEntry
     {
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
-        public string PhoneNumber { get; private set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public string EntryMail { get; private set; }
-        public string Address { get; private set; }
-        public string WebAddress { get; private set; }
-        public string Notes { get; private set; }
-        public string BornDate { get; private set; }
-        public string Nickname { get; private set; }
+        public string EntryMail { get; set; }
+        public string Address { get; set; }
+        public string WebAddress { get; set; }
+        public string Notes { get; set; }
+        public string BornDate { get; set; }
+        public string Nickname { get; set; }
 
         public AddressBookEntry(string name, string surname, string pn, string em, string address, string wa, string notes, string bd, string nickname)
         {
@@ -25,5 +27,6 @@
             BornDate = bd;
             Nickname = nickname;
         }
+        public AddressBookEntry() { }
     }
 }

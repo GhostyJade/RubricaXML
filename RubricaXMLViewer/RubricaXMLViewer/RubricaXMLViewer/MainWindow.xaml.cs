@@ -1,4 +1,5 @@
 ﻿using RubricaXMLViewer.AddressBook.Data;
+using RubricaXMLViewer.AddressBook.Data.Network;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -17,6 +18,7 @@ namespace RubricaXMLViewer
             InitializeComponent();
             new EntryMaker().Show();
             Entries.ItemsSource = entries;
+            DataListener.Instance.Connect();
         }
     }
 }

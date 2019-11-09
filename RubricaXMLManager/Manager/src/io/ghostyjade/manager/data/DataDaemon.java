@@ -25,9 +25,16 @@ public class DataDaemon implements Runnable {
 	@Override
 	public void run() {
 		System.out.println("Server started");
+		Socket clientSocket = null;
+		try {
+			clientSocket = socket.accept();
+			listening=true;
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		while (listening) {
 			try {
-				Socket clientSocket = socket.accept();
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
 				processPacket(in.readLine());					
@@ -38,6 +45,7 @@ public class DataDaemon implements Runnable {
 	}
 	
 	private void processPacket(String line) {
+		System.out.println(line);
 		String cmd = line.substring(0,8);
 		System.out.println(cmd);
 		if(cmd.equals("CmdSave ")) {
@@ -52,7 +60,6 @@ public class DataDaemon implements Runnable {
 	}
 
 	public synchronized void start() {
-		listening = true;
 		daemonThread = new Thread(this, "AddressBookManager - Daemon");
 		daemonThread.start();
 	}

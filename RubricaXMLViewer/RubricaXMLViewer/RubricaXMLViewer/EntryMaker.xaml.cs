@@ -15,6 +15,7 @@ namespace RubricaXMLViewer
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("WA");
             if (string.IsNullOrEmpty(TxtName.Text) || string.IsNullOrEmpty(TxtPhoneText.Text))
             {
                 //TODO perform something useful

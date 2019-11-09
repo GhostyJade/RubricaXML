@@ -4,3 +4,9 @@ H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\bin
 H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\obj\Debug\NetworkTests.csprojAssemblyReference.cache
 H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\obj\Debug\NetworkTests.exe
 H:\Github Projects\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\obj\Debug\NetworkTests.pdb
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\bin\Debug\NetworkTests.exe.config
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\bin\Debug\NetworkTests.exe
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\bin\Debug\NetworkTests.pdb
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\obj\Debug\NetworkTests.csprojAssemblyReference.cache
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\obj\Debug\NetworkTests.exe
+C:\Users\giand\Desktop\RubricaXML\RubricaXMLViewer\RubricaXMLViewer\NetworkTests\obj\Debug\NetworkTests.pdb

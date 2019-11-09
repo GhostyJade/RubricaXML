@@ -26,14 +26,14 @@ import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 import org.xml.sax.SAXException;
 
-import io.ghostyjade.manager.addressbook.AddressBookEntry;
+import io.ghostyjade.manager.addressbook.Contact;
 
 public class FileManager {
 
 	private static final String FILE_PATH = "";
 	private static final String FILE_NAME = "rubrica.xml";
 
-	public static void saveAddressBook(String filename, List<AddressBookEntry> entries) {
+	public static void saveAddressBook(String filename, List<Contact> entries) {
 		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
 		try {
@@ -44,8 +44,8 @@ public class FileManager {
         Document d = documentBuilder.newDocument();
 		Node root = d.createElement("addressbook");
 		d.appendChild(root);
-        for (AddressBookEntry addressBookEntry : entries) {
-        	root.appendChild(getNodeFromEntry(addressBookEntry, d));
+        for (Contact addressBookEntry : entries) {
+        	root.appendChild(addressBookEntry.toXML(d));
 		}
 		TransformerFactory f = TransformerFactory.newInstance();
 		Transformer t = null;
@@ -70,8 +70,8 @@ public class FileManager {
 		}
 	}
 
-	public static List<AddressBookEntry> readAddressBook(String filename) {
-		List<AddressBookEntry> entries = new ArrayList<AddressBookEntry>();
+	public static List<Contact> readAddressBook(String filename) {
+		List<Contact> entries = new ArrayList<Contact>();
 		Document d = getDocumentFromFile(filename);
 		d.getDocumentElement().normalize();
 		Element root = d.getDocumentElement();
@@ -84,31 +84,14 @@ public class FileManager {
 		return entries;
 	}
 
-	private static AddressBookEntry getEntryFromNode(Node n) {
+	private static Contact getEntryFromNode(Node n) {
 		Element data = (Element) n;
+		int id = Integer.valueOf(data.getAttribute("id"));
 		String name = data.getElementsByTagName("name").item(0).getTextContent();
 		String surname = data.getElementsByTagName("surname").item(0).getTextContent();
-		String phoneNumber = data.getElementsByTagName("phoneNumber").item(0).getTextContent();
-		AddressBookEntry e = new AddressBookEntry(name, surname, phoneNumber);
+		String phoneNumber = data.getElementsByTagName("phone").item(0).getTextContent();
+		Contact e = new Contact(id, name, surname, phoneNumber);
 		return e; //TODO implement all infos and add id to all entries
-	}
-	
-	private static Element getNodeFromEntry(AddressBookEntry e, Document d) {
-		Element element = d.createElement("entry");
-		element.setAttribute("id", "0");
-		//element.setAttribute("name", e.getName());
-		//element.setAttribute("surname", e.getSurname());
-		//element.setAttribute("phoneNumber", e.getPhoneNumber());
-		element.appendChild(createNode(d, "name", e.getName()));
-		element.appendChild(createNode(d, "surname", e.getSurname()));
-		element.appendChild(createNode(d, "phoneNumber", e.getPhoneNumber()));
-		return element;
-	}
-	
-	private static Node createNode(Document d, String name, String value) {
-		Node n = d.createElement(name);
-		n.appendChild(d.createTextNode(value));
-		return n;
 	}
 
 	private static Document getDocumentFromFile(String filename) {
@@ -127,6 +110,11 @@ public class FileManager {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static boolean checkForFileExistence() {
+		File addressBook = new File(FILE_NAME);
+		return addressBook.exists();
 	}
 
 }

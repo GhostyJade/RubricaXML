@@ -7,12 +7,15 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import io.ghostyjade.manager.file.FileManager;
+
 public class DataDaemon implements Runnable {
-	
+
 	private Thread daemonThread;
 	private boolean listening = false;
 	private ServerSocket socket;
 	private Data data;
+	private Socket clientSocket;
 
 	public DataDaemon(String address, int port) {
 		try {
@@ -25,38 +28,55 @@ public class DataDaemon implements Runnable {
 	@Override
 	public void run() {
 		System.out.println("Server started");
-		Socket clientSocket = null;
+		makeConnection();
+		BufferedReader in = null;
 		try {
-			clientSocket = socket.accept();
-			listening=true;
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		while (listening) {
 			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-				processPacket(in.readLine());					
+				
+				processPacket(in.readLine());
 			} catch (IOException e) {
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 	}
-	
-	private void processPacket(String line) {
-		System.out.println(line);
-		String cmd = line.substring(0,8);
-		System.out.println(cmd);
-		if(cmd.equals("CmdSave ")) {
-			String[] parts = line.replace("CmdSave ", "").split(",");
-			data.addEntry(parts);
-			System.out.println("Saved entry");
+
+	private void makeConnection() {
+		try {
+			clientSocket = socket.accept();
+			listening = true;
+			System.out.println("Connected client: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+		} catch (IOException e1) {
+			System.err.println("Failed to open connection. Exiting...");
+			return;
 		}
 	}
-	
+
+	private void processPacket(String line) {
+		if (line.contains("[")) {
+			String cmd = line.substring(line.indexOf("["), line.indexOf("]"));
+			System.out.println("Received command: " + cmd);
+			if (cmd.equals("CmdSave")) {
+				line = line.replace("]", "");
+				String[] parts = line.replace("CmdSave ", "").split(",");
+				data.addEntry(parts);
+				System.out.println("Saved entry");
+			}
+		} else if (line.equals("Close")) {
+			stop();
+		} else {
+			System.out.println("Ignored packet: " + line);
+		}
+	}
+
 	private void send() {
-		
+
 	}
 
 	public synchronized void start() {
@@ -65,16 +85,25 @@ public class DataDaemon implements Runnable {
 	}
 
 	public synchronized void stop() {
+		System.out.println("Closing connection to " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
 		try {
-			daemonThread.join();
-		} catch (InterruptedException e) {
+			clientSocket.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
 			socket.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException ioEx) {
+			ioEx.printStackTrace();
 		}
+		listening=false;
+		try {
+			daemonThread.join();
+		} catch (InterruptedException iEx) {
+			iEx.printStackTrace();
+		}
+		System.out.println("Writing files...");
+		FileManager.saveAddressBook(filename, entries);
 	}
 
 	public void setDataClass(Data d) {

@@ -17,7 +17,7 @@ public class Main {
 			DataDaemon daemon = new DataDaemon(address, port);
 			Data d = new Data();
 			daemon.setDataClass(d);
-			daemon.start();		
+			daemon.start();
 		}else {
 			System.out.println("This program is useless without it's GUI...Maybe..." );
 		}

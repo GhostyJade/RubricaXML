@@ -1,8 +1,14 @@
 package io.ghostyjade.manager.addressbook;
 
-public class AddressBookEntry {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-	//Required infos
+public class Contact {
+
+	// Required infos
+	private int id;
+
 	private String name;
 	private String surname;
 	private String phoneNumber;
@@ -14,89 +20,42 @@ public class AddressBookEntry {
 	private String bornDate;
 	private String nickname;
 
-	public AddressBookEntry(String name, String surname, String phoneNumber) {
+	public Contact(int id, String name, String surname, String phoneNumber) {
 		this.name = name;
 		this.surname = surname;
-		this.phoneNumber=phoneNumber;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public String getEntryMail() {
-		return entryMail;
-	}
-
-	public void setEntryMail(String entryMail) {
-		this.entryMail = entryMail;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getWebAddress() {
-		return webAddress;
-	}
-
-	public void setWebAddress(String webAddress) {
-		this.webAddress = webAddress;
-	}
-
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-	public String getBornDate() {
-		return bornDate;
-	}
-
-	public void setBornDate(String bornDate) {
-		this.bornDate = bornDate;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
 	@Override
 	public String toString() {
 		return "Name: " + name + ", Surname: " + surname + ", Phone number: " + phoneNumber;
 	}
-	
-	public void toXML() {}
-	
+
+	public Element toXML(Document d) {
+		Element element = d.createElement("entry");
+		element.setAttribute("id", String.valueOf(id));
+		element.appendChild(createNode(d, "name", name));
+		element.appendChild(createNode(d, "surname", surname));
+		element.appendChild(createNode(d, "phone", phoneNumber));
+		return element;
+	}
+
+	public String toUIString() {
+		StringBuilder sb = new StringBuilder("[Contact]");
+		sb.append("name=").append(name);
+		sb.append("surname=").append(surname);
+		sb.append("phone=").append(phoneNumber);
+		return sb.toString();
+	}
+
+	private Node createNode(Document d, String name, String value) {
+		Node n = d.createElement(name);
+		n.appendChild(d.createTextNode(value));
+		return n;
+	}
+
 }

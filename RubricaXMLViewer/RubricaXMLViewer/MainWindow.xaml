@@ -8,14 +8,18 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Menu VerticalAlignment="Top" Height="18">
-            <MenuItem Header="File">
-                <MenuItem Header="Add new entry" HorizontalAlignment="Left" />
+            <MenuItem Header="File" HorizontalAlignment="Left">
+                <MenuItem x:Name="mnItemCreate" Header="Create" HorizontalAlignment="Left" Height="22">
+                    <MenuItem Header="New entry" HorizontalAlignment="Left" Click="OnNewEntryAdd_Click" Margin="0,0,-1.835,0" Width="185"/>
+                    <MenuItem Header="New Address Book" HorizontalAlignment="Left" Click="OnNewAddressBook_Click" Height="22" Width="185"/>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <Grid x:Name="Container" Margin="0,18,0,0">
-            <DataGrid x:Name="Entries">
-                
+            <DataGrid x:Name="Entries" Margin="100,0,0,0">
+
             </DataGrid>
+            <TreeView x:Name="AddressBooks" HorizontalAlignment="Left" Height="401" VerticalAlignment="Top" Width="100"/>
         </Grid>
     </Grid>
 </Window>

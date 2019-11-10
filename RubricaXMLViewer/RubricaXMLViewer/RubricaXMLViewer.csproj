@@ -66,10 +66,11 @@
     </Page>
     <Compile Include="AddressBook\Data\AddressBookEntry.cs" />
     <Compile Include="AddressBook\Data\Network\AsyncClient.cs" />
-    <Compile Include="AddressBook\Data\Network\DataListener.cs" />
+    <Compile Include="AddressBook\Data\Network\NetworkManager.cs" />
     <Compile Include="AddressBook\Data\Property.cs" />
     <Compile Include="AddressBook\Utils\Extensions.cs" />
     <Compile Include="AddressBook\Utils\I18n.cs" />
+    <Compile Include="AddressBook\Utils\Instances.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -81,8 +82,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NewAddressBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NewAddressBook.xaml.cs">
+      <DependentUpon>NewAddressBook.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

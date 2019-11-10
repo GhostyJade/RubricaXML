@@ -1,45 +1,22 @@
 package io.ghostyjade.manager.data;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import io.ghostyjade.manager.addressbook.Contact;
+import io.ghostyjade.manager.addressbook.AddressBook;
+import io.ghostyjade.manager.addressbook.Container;
 
 public class Data {
 
-	private List<Contact> entries = new CopyOnWriteArrayList<>();
-
-	private int lastId = 0;
-
-	public void addEntry(String data) {
-		addEntry(data.split(","));
+	private Container container = new Container();
+	
+	public Container getContainer() {
+		return container;
 	}
 
-	public void addEntry(String[] parts) {
-		Map<String, String> data = new HashMap<String, String>();
-		for (String s : parts) {
-			String[] p = s.split("=");
-			data.put(p[0], p[1]);
-		}
-		entries.add(new Contact(lastId++, data.get("name"), data.get("surname"), data.get("phone")));
+	public void createAddressBook(String name) {
+		container.addAddressBook(new AddressBook(0, name));
 	}
 
-	public void deleteEntry(String phone) {
-		Contact toRemoveEntry = null;
-		for (Contact e : entries) {
-			if(e.getPhoneNumber().equals(phone)) {
-				toRemoveEntry = e;
-				return;
-			}
-		}
-		if(toRemoveEntry != null)
-			entries.remove(toRemoveEntry);
+	public void addNewEntry(String bookName, String data) {
+		container.addNewEntry(bookName, data);
 	}
-
-	public List<Contact> getEntries() {
-		return entries;
-	}
-
+	
 }

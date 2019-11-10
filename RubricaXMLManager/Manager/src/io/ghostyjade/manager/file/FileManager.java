@@ -8,6 +8,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -15,60 +16,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.TypeInfo;
-import org.w3c.dom.UserDataHandler;
 import org.xml.sax.SAXException;
 
 import io.ghostyjade.manager.addressbook.Contact;
+import io.ghostyjade.manager.addressbook.Container;
 
 public class FileManager {
 
-	private static final String FILE_PATH = "";
 	private static final String FILE_NAME = "rubrica.xml";
-
-	public static void saveAddressBook(String filename, List<Contact> entries) {
-		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = null;
-		try {
-			documentBuilder = documentFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e2) {
-			e2.printStackTrace();
-		}
-        Document d = documentBuilder.newDocument();
-		Node root = d.createElement("addressbook");
-		d.appendChild(root);
-        for (Contact addressBookEntry : entries) {
-        	root.appendChild(addressBookEntry.toXML(d));
-		}
-		TransformerFactory f = TransformerFactory.newInstance();
-		Transformer t = null;
-		try {
-			t = f.newTransformer();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		}
-		DOMSource src = new DOMSource(d);
-		File file = new File(filename);
-		if(!file.exists())
-			try {
-				file.createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		StreamResult data = new StreamResult(file);
-		try {
-			t.transform(src, data);
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static List<Contact> readAddressBook(String filename) {
 		List<Contact> entries = new ArrayList<Contact>();
@@ -91,7 +50,7 @@ public class FileManager {
 		String surname = data.getElementsByTagName("surname").item(0).getTextContent();
 		String phoneNumber = data.getElementsByTagName("phone").item(0).getTextContent();
 		Contact e = new Contact(id, name, surname, phoneNumber);
-		return e; //TODO implement all infos and add id to all entries
+		return e; // TODO implement all infos to all entries
 	}
 
 	private static Document getDocumentFromFile(String filename) {
@@ -111,10 +70,50 @@ public class FileManager {
 		}
 		return null;
 	}
-	
+
 	public static boolean checkForFileExistence() {
 		File addressBook = new File(FILE_NAME);
 		return addressBook.exists();
+	}
+
+	public static boolean save(Container c) {
+		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = null;
+		try {
+			documentBuilder = documentFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e2) {
+			e2.printStackTrace();
+			return false;
+		}
+		Document d = documentBuilder.newDocument();
+		Node root = c.toXML(d);
+		d.appendChild(root);
+		TransformerFactory f = TransformerFactory.newInstance();
+		Transformer t = null;
+		try {
+			t = f.newTransformer();
+			t.setOutputProperty(OutputKeys.INDENT, "yes");
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+			return false;
+		}
+		DOMSource src = new DOMSource(d);
+		File file = new File(FILE_NAME);
+		if (!file.exists())
+			try {
+				file.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				return false;
+			}
+		StreamResult data = new StreamResult(file);
+		try {
+			t.transform(src, data);
+			return true;
+		} catch (TransformerException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

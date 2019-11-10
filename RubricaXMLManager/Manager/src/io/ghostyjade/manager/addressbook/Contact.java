@@ -4,7 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class Contact {
+public class Contact implements XMLSerializable{
 
 	// Required infos
 	private int id;
@@ -25,6 +25,9 @@ public class Contact {
 		this.surname = surname;
 		this.phoneNumber = phoneNumber;
 	}
+	
+	public Contact() {
+	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -34,7 +37,8 @@ public class Contact {
 	public String toString() {
 		return "Name: " + name + ", Surname: " + surname + ", Phone number: " + phoneNumber;
 	}
-
+	
+	@Override
 	public Element toXML(Document d) {
 		Element element = d.createElement("entry");
 		element.setAttribute("id", String.valueOf(id));

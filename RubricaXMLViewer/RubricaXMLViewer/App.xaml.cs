@@ -17,7 +17,8 @@ namespace RubricaXMLViewer
 
         protected override void OnExit(ExitEventArgs e)
         {
-            DataListener.Instance.SendCloseMessage();
+            NetworkManager.Instance.SendCloseMessage();
+            NetworkManager.Instance.Close();
             base.OnExit(e);
         }
     }

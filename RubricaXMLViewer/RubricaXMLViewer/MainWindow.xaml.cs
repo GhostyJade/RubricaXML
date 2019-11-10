@@ -1,6 +1,5 @@
-﻿using RubricaXMLViewer.AddressBook.Data;
-using RubricaXMLViewer.AddressBook.Data.Network;
-using System.Collections.ObjectModel;
+﻿using RubricaXMLViewer.AddressBook.Data.Network;
+using RubricaXMLViewer.AddressBook.Utils;
 using System.Windows;
 
 namespace RubricaXMLViewer
@@ -11,14 +10,22 @@ namespace RubricaXMLViewer
     public partial class MainWindow : Window
     {
 
-        private ObservableCollection<AddressBookEntry> entries = new ObservableCollection<AddressBookEntry>();
-
         public MainWindow()
         {
-            DataListener.Instance.Initialize();
+            NetworkManager.Instance.Initialize();
             InitializeComponent();
+            Entries.ItemsSource = Instances.Entries;
+            AddressBooks.ItemsSource = Instances.Books;
+        }
+
+        private void OnNewEntryAdd_Click(object sender, RoutedEventArgs e)
+        {
             new EntryMaker().Show();
-            Entries.ItemsSource = entries;
+        }
+
+        private void OnNewAddressBook_Click(object sender, RoutedEventArgs e)
+        {
+            new NewAddressBook().Show();
         }
     }
 }

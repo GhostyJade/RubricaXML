@@ -14,5 +14,17 @@ namespace RubricaXMLViewer.AddressBook.Utils
         {
             return (string.IsNullOrEmpty(tx.Text) || string.IsNullOrWhiteSpace(tx.Text)) ? "" : tx.Text;
         }
+
+        public static bool TryGetText(this TextBox tx, out string textContent)
+        {
+            string txt = tx.Text;
+            if(string.IsNullOrEmpty(txt) || string.IsNullOrWhiteSpace(txt))
+            {
+                textContent = null;
+                return false;
+            }
+            textContent = txt;
+            return true;
+        }
     }
 }

@@ -12,9 +12,9 @@
             <Label Content="Name:" HorizontalAlignment="Left" Height="23" Margin="45.448,3.785,0,0" VerticalAlignment="Top" Width="47.422" Foreground="White"/>
             <Label Content="Surname:" HorizontalAlignment="Left" Height="23" Margin="30.314,31.785,0,0" VerticalAlignment="Top" Width="62.556" RenderTransformOrigin="0.516,0.603" Foreground="White"/>
             <Label Content="Phone number:" HorizontalAlignment="Left" Height="23" Margin="1.054,59.785,0,0" VerticalAlignment="Top" Width="91.816" Foreground="White"/>
-            <TextBox x:Name="TxtName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="97.87,3.785,0,0" BorderBrush="#FF8A00FF" Foreground="White" Background="Black"/>
-            <TextBox x:Name="TxtSurname" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="97.87,31.785,0,0" BorderBrush="#FF8A00FF" Foreground="White" Background="Black"/>
-            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="97.87,59.785,0,0" x:Name="TxtPhoneText" BorderBrush="#FF8A00FF" Foreground="White" Background="Black"/>
+            <TextBox x:Name="TxtName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="97.87,3.785,0,0" BorderBrush="#FF8A00FF" Foreground="White" Background="Black" SelectionBrush="#FF6C00C7"/>
+            <TextBox x:Name="TxtSurname" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="97.87,31.785,0,0" BorderBrush="#FF8A00FF" Foreground="White" Background="Black" SelectionBrush="#FF6C00C7"/>
+            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="97.87,59.785,0,0" x:Name="TxtPhoneText" BorderBrush="#FF8A00FF" Foreground="White" Background="Black" SelectionBrush="#FF6C00C7"/>
         </Grid>
         <Expander Header="Expander" HorizontalAlignment="Left" Height="54.991" VerticalAlignment="Top" Width="238.861" Margin="0,196.52,0,0" d:IsHidden="True">
             <Grid Background="#FFE5E5E5" Height="130">

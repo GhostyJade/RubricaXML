@@ -1,0 +1,27 @@
+﻿<Window x:Class="RubricaXMLViewer.NewAddressBook"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RubricaXMLViewer"
+        mc:Ignorable="d"
+        Title="New Address Book" Height="98.191" Width="294.506" Topmost="True" ResizeMode="NoResize">
+    <Grid Background="#FF1F1F1F">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" x:Name="txtAddressBookName" TextWrapping="Wrap" Margin="5.253,8.28" Foreground="White" SelectionBrush="#FF6C00C7" BorderBrush="#FF8A00FF" Background="Black" TextChanged="TxtAddressBookName_TextChanged"/>
+            <Label Content="Name:" Margin="0" Foreground="White" Height="23" VerticalAlignment="Center" HorizontalAlignment="Center" Width="44.296"/>
+            <Button Grid.Column="2" x:Name="btnCreate" Content="Create" HorizontalAlignment="Center" Margin="9.708,8.28" Width="60.584" Click="CreateAddressBook_Click" Background="Black" BorderBrush="#FF8A00FF" Foreground="White"/>
+
+        </Grid>
+        <Label x:Name="lblNameError" Content="You must provide a name for the new address book" Foreground="Red" Visibility="Hidden"  Grid.Row="1" Margin="25.524,0,0,0.716" FontSize="10" Height="26.244" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="237.457"/>
+    </Grid>
+</Window>

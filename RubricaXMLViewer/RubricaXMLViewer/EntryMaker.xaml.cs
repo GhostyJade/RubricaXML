@@ -1,4 +1,5 @@
-﻿using RubricaXMLViewer.AddressBook.Data.Network;
+﻿using RubricaXMLViewer.AddressBook.Data;
+using RubricaXMLViewer.AddressBook.Data.Network;
 using RubricaXMLViewer.AddressBook.Utils;
 using System.Windows;
 
@@ -9,8 +10,11 @@ namespace RubricaXMLViewer
     /// </summary>
     public partial class EntryMaker : Window
     {
-        public EntryMaker()
+        private string bookName;
+
+        public EntryMaker(string bookName)
         {
+            this.bookName = bookName;
             InitializeComponent();
         }
 
@@ -23,7 +27,8 @@ namespace RubricaXMLViewer
             {
                 //TODO perform something useful
                 return;
-            }else if(name.Contains(",")||surname.Contains(",")||phoneNumber.Contains(","))
+            }
+            else if (name.Contains(",") || surname.Contains(",") || phoneNumber.Contains(","))
             {
                 //TODO perform something useful pt2
                 return;
@@ -32,6 +37,13 @@ namespace RubricaXMLViewer
             {
                 //FIXME AddressBook.Data.AddressBookEntry ent = new AddressBook.Data.AddressBookEntry(name, surname, phoneNumber, "", "", "", "", "", "");
                 //TODO DataListener.Instance.SendNewAddressBookEntry(ent);
+                AddressBookEntry entry = new AddressBookEntry()
+                {
+                    Name = name,
+                    Surname = surname,
+                    PhoneNumber = phoneNumber
+                };
+                NetworkManager.Instance.SendNewAddressBookEntry(entry, bookName);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using RubricaXMLViewer.AddressBook.Utils;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -10,7 +11,7 @@ namespace RubricaXMLViewer.AddressBook.UI
 
         public static UIProcessor Instance { get; private set; } = new UIProcessor();
 
-        private List<UIEvent> UIEvents = new List<UIEvent>();
+        private SynchronizedCollection<UIEvent> UIEvents = new SynchronizedCollection<UIEvent>(); //TODO concurrent.
         private MainWindow mainWindow;
 
         public void Init(MainWindow window)
@@ -20,11 +21,18 @@ namespace RubricaXMLViewer.AddressBook.UI
 
         public void Update()
         {
-            UIEvents.ForEach(e =>
+            foreach (UIEvent e in UIEvents)
+                if (e.ActionConditions())
+                    e.PerformAction();
+
+            for (int i = UIEvents.Count; i > 0; i--)
             {
-                if (e.ActionConditions()) e.PerformAction();
-            });
-            UIEvents.RemoveAll(item => item.Completed);
+                UIEvent e = UIEvents[i];
+                if (e.Completed)
+                {
+                    UIEvents.Remove(e);
+                }
+            }
         }
 
         public void ParseAction(string action, params string[] args)
@@ -43,8 +51,9 @@ namespace RubricaXMLViewer.AddressBook.UI
                                 data.TryGetValue("name", out string name);
                                 e.Action += () =>
                                   {
-                                      Application.Current.Dispatcher.Invoke((Action)delegate { 
-                                        Instances.Books.Add(name);
+                                      Application.Current.Dispatcher.Invoke((Action)delegate
+                                      {
+                                          Instances.Books.Add(name);
                                       });
                                       e.MarkAsCompleted();
                                   };

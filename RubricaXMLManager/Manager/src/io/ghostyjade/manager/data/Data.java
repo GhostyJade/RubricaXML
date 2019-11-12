@@ -5,8 +5,16 @@ import io.ghostyjade.manager.addressbook.Container;
 
 public class Data {
 
-	private Container container = new Container();
+	private Container container;
 	
+	public Data() {
+		this.container = new Container();
+	}
+
+	public void setFromExistingContainer(Container c) {
+		this.container = c;
+	}
+
 	public Container getContainer() {
 		return container;
 	}
@@ -18,5 +26,5 @@ public class Data {
 	public void addNewEntry(String bookName, String data) {
 		container.addNewEntry(bookName, data);
 	}
-	
+
 }

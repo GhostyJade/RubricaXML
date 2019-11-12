@@ -3,6 +3,7 @@ using RubricaXMLViewer.AddressBook.UI;
 using RubricaXMLViewer.AddressBook.Utils;
 using System.Windows;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace RubricaXMLViewer
 {
@@ -13,6 +14,8 @@ namespace RubricaXMLViewer
     {
         private bool running = false;
 
+        private string selectedBook;
+
         private Thread uiThread;
 
         public MainWindow()
@@ -22,6 +25,7 @@ namespace RubricaXMLViewer
             UIProcessor.Instance.Init(this);
             Entries.ItemsSource = Instances.Entries;
             AddressBooks.ItemsSource = Instances.Books;
+            AddressBooks.ContextMenu = AddressBooks.Resources["TreeViewRightClick"] as ContextMenu;
             uiThread = new Thread(new ThreadStart(() => { while (running) { UIProcessor.Instance.Update(); } }));
             running = true;
             uiThread.Start();
@@ -29,7 +33,7 @@ namespace RubricaXMLViewer
 
         private void OnNewEntryAdd_Click(object sender, RoutedEventArgs e)
         {
-            new EntryMaker().Show();
+            new EntryMaker(selectedBook).Show();
         }
 
         private void OnNewAddressBook_Click(object sender, RoutedEventArgs e)
@@ -41,6 +45,11 @@ namespace RubricaXMLViewer
         {
             running = false;
             uiThread.Join();
+        }
+
+        private void AddressBooks_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            selectedBook = AddressBooks.SelectedItem.ToString();
         }
     }
 }

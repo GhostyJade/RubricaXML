@@ -9,9 +9,7 @@ namespace RubricaXMLViewer.AddressBook.UI
         public event Func<bool> Condition;
         public bool Completed { get; private set; } = false;
 
-        public UIEvent()
-        {
-        }
+        public UIEvent() { }
 
         public void MarkAsCompleted()
         {

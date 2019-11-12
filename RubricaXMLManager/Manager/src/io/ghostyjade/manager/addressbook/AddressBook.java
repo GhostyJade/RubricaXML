@@ -14,14 +14,18 @@ public class AddressBook implements XMLSerializable {
 	private String name;
 
 	private List<Contact> contacts = new CopyOnWriteArrayList<Contact>();
-	
-	private int lastId=0;
+
+	private static int lastId = 0;
+
+	public static void setLastId(int value) {
+		lastId = value;
+	}
 
 	public AddressBook(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -30,17 +34,18 @@ public class AddressBook implements XMLSerializable {
 	public Element toXML(Document d) {
 		Element root = d.createElement("addressbook");
 		root.setAttribute("id", String.valueOf(id));
+		//root.setAttribute("lastid", String.valueOf(lastId));
 		root.setAttribute("name", name);
 		for (Contact contact : contacts) {
 			root.appendChild(contact.toXML(d));
 		}
 		return root;
 	}
-	
+
 	public void addEntry(String data) {
 		addEntry(data.split(","));
 	}
-	
+
 	private void addEntry(String[] parts) {
 		Map<String, String> data = new HashMap<String, String>();
 		for (String s : parts) {
@@ -53,14 +58,19 @@ public class AddressBook implements XMLSerializable {
 	public void deleteEntry(String phone) {
 		Contact toRemoveEntry = new Contact();
 		for (Contact e : contacts) {
-			if(e.getPhoneNumber().equals(phone)) {
+			if (e.getPhoneNumber().equals(phone)) {
 				toRemoveEntry = e;
 				return;
 			}
 		}
-		
-		if(toRemoveEntry != null)
+
+		if (toRemoveEntry != null)
 			contacts.remove(toRemoveEntry);
+	}
+	
+	@Override
+	public String toString() {
+		return "Name: " + name;
 	}
 
 }

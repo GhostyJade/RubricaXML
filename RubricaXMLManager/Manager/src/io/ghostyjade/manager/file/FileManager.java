@@ -1,5 +1,6 @@
 package io.ghostyjade.manager.file;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import io.ghostyjade.manager.addressbook.AddressBook;
 import io.ghostyjade.manager.addressbook.Contact;
 import io.ghostyjade.manager.addressbook.Container;
 
@@ -29,6 +31,32 @@ public class FileManager {
 
 	private static final String FILE_NAME = "rubrica.xml";
 
+	public static Container read() {
+		Container c = new Container();
+		if(checkForFileExistence()) {
+			Document d = getDocumentFromFile(FILE_NAME);
+			parseFile(d, c);
+		}
+		return c;
+	}
+	
+	private static void parseFile(Document d, Container c) {
+		Element root = d.getDocumentElement();
+		NodeList addressBooks = root.getElementsByTagName("addressbook");
+		c.setLastId(addressBooks.getLength());
+		for (int i = 0; i < addressBooks.getLength(); i++) {
+			Node book = addressBooks.item(i);
+			String bookName = book.getAttributes().getNamedItem("name").getNodeValue();
+			c.addAddressBook(new AddressBook(i, bookName));
+			NodeList entries = book.getChildNodes();
+			for(int j = 0; j < entries.getLength(); j++) {
+				Node entry = entries.item(i);
+				
+			}
+		}
+	}
+	
+	@Deprecated
 	public static List<Contact> readAddressBook(String filename) {
 		List<Contact> entries = new ArrayList<Contact>();
 		Document d = getDocumentFromFile(filename);
@@ -43,6 +71,7 @@ public class FileManager {
 		return entries;
 	}
 
+	@Deprecated
 	private static Contact getEntryFromNode(Node n) {
 		Element data = (Element) n;
 		int id = Integer.valueOf(data.getAttribute("id"));
@@ -58,6 +87,7 @@ public class FileManager {
 		try {
 			DocumentBuilder builder = dbf.newDocumentBuilder();
 			Document d = builder.parse(new File(filename));
+			d.normalize();
 			return d;
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

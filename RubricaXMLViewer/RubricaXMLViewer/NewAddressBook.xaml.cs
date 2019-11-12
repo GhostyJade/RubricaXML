@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace RubricaXMLViewer
 {
     /// <summary>
-    /// Logica di interazione per NewAddressBook.xaml
+    /// Interaction logic for NewAddressBook.xaml
     /// </summary>
     public partial class NewAddressBook : Window
     {

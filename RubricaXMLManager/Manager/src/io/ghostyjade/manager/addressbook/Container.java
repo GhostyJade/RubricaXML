@@ -6,24 +6,28 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class Container implements XMLSerializable {
-	
+
 	private ConcurrentHashMap<String, AddressBook> books = new ConcurrentHashMap<>();
+	private int lastId;
 
 	public Container() {
 	}
-	
+
+	public void setLastId(int id) {
+		this.lastId = id;
+	}
+
 	public void addAddressBook(AddressBook a) {
 		books.put(a.getName(), a);
 	}
-	
-	/*public void addNewEntry(String bookName, Contact c) {
-		books.get(bookName).addEntry(c);
-	}*/
-	
+
 	public void addNewEntry(String bookName, String data) {
-		books.get(bookName).addEntry(data);
+		books.values().forEach((e) -> {
+			System.out.println(e);
+		});
+		// books.get(bookName).addEntry(data);
 	}
-	
+
 	@Override
 	public Element toXML(Document d) {
 		Element root = d.createElement("container");
@@ -32,7 +36,5 @@ public class Container implements XMLSerializable {
 		}
 		return root;
 	}
-	
-	
 
 }

@@ -84,7 +84,6 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
                 if (bytesRead > 0)
                 {
                     string data = Encoding.ASCII.GetString(state.buffer, 0, bytesRead);
-                    MessageBox.Show("Data is " + data);
                     state.sb.Append(data);
                     if (!data.Contains("\n"))
                     {

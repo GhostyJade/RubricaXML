@@ -65,9 +65,12 @@ public class DataDaemon implements Runnable {
 			line = line.replace("]", "");
 			System.out.println("Received command: " + cmd);
 			if (cmd.contentEquals("NewEntry")) {
-				String bookName = line.substring(0, line.indexOf(","));
-				args=args.replace(bookName, "");
-				data.addNewEntry(bookName, args);
+				String bookName = line.substring(line.indexOf("=")+1, line.indexOf(","));
+				//args=args.replace(bookName, "");
+				System.out.println("BN=" + bookName);
+				System.out.println("args: " + args);
+				System.out.println(bookName);
+				data.addNewEntry("bn="+bookName, args);
 				System.out.println("Saved entry");
 			}else if(cmd.contentEquals("NewAddressBook")) {
 				data.createAddressBook(args);

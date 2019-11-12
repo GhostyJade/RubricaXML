@@ -5,22 +5,26 @@ namespace RubricaXMLViewer.AddressBook.UI
     public class UIEvent
     {
 
-        private event Action action;
-        private event Func<bool> condition;
+        public event Action Action;
+        public event Func<bool> Condition;
+        public bool Completed { get; private set; } = false;
 
-        public UIEvent(Action action, Func<bool> condition)
+        public UIEvent()
         {
-            this.action = action;
-            this.condition = condition;
+        }
+
+        public void MarkAsCompleted()
+        {
+            Completed = true;
         }
 
         public void PerformAction()
         {
-            action.Invoke();
+            Action.Invoke();
         }
         public bool ActionConditions()
         {
-            return condition.Invoke();
+            return Condition.Invoke();
         }
     }
 }

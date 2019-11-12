@@ -1,5 +1,8 @@
-﻿using RubricaXMLViewer.AddressBook.Utils;
+﻿using RubricaXMLViewer.AddressBook.UI;
+using RubricaXMLViewer.AddressBook.Utils;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 
 namespace RubricaXMLViewer.AddressBook.Data.Network
@@ -20,13 +23,29 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
 
         public void Receive()
         {
-            WaitForMessages(out string msg);
+            RunThread();
         }
 
-        private void WaitForMessages(out string msg)
+        private void RunThread()
         {
-            AsyncClient.Receive(out msg);
-            AsyncClient.receiveDone.WaitOne();
+            new Thread(new ThreadStart(() =>
+            {
+                AsyncClient.Receive();
+                AsyncClient.receiveDone.WaitOne();
+                string msg = AsyncClient.GetResponse();
+                if (msg != null)
+                {
+                    ProcessMessage(msg, out string action, out string[] args);
+                    Console.WriteLine(msg);
+                    UIProcessor.Instance.ParseAction(action, args);
+                }
+            })).Start();
+        }
+
+        private void ProcessMessage(string message, out string action, out string[] args)
+        {
+            action = message.Substring(0, message.IndexOf("["));
+            args = message.Substring(message.IndexOf("[") + 1, message.LastIndexOf("]") - message.IndexOf("[")-1).Split(',');
         }
 
         public void SendCloseMessage()
@@ -54,46 +73,6 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
         {
             string data = string.Format("NewAddressBook[{0}]", name);
             Send(data);
-        }
-
-        private void ProcessMessage()
-        {
-            if (AsyncClient.messageQueue.TryDequeue(out string message))
-            {
-                string cmd = message.Substring(0, message.IndexOf("["));
-                string args = message.Substring(message.IndexOf("[") + 1, message.IndexOf("]"));
-                Dictionary<string, string> data = ParseData(args);
-                if (cmd == "NewAddressBook")
-                {
-                    if (data.ContainsKey("result"))
-                    {
-                        if (data.TryGetValue("result", out string val))
-                            if (val == "succeeded")
-                            {
-                                data.TryGetValue("name", out string name);
-                                MessageBox.Show("Created new address book: " + name);
-                                Instances.Books.Add(name);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Failed to create new address book");
-                            }
-                    }
-
-                }
-            }
-        }
-
-        private Dictionary<string, string> ParseData(string rawData)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            foreach (string s in rawData.Split(','))
-            {
-                string[] parts = s.Split('=');
-                data.Add(parts[0], parts[1]);
-            }
-
-            return data;
         }
 
     }

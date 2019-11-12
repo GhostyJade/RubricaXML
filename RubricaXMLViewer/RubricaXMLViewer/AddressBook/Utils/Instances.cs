@@ -9,6 +9,5 @@ namespace RubricaXMLViewer.AddressBook.Utils
     {
         public static ObservableCollection<AddressBookEntry> Entries = new ObservableCollection<AddressBookEntry>();
         public static ObservableCollection<string> Books = new ObservableCollection<string>();
-        public static List<UIEvent> EventList = new List<UIEvent>();
     }
 }

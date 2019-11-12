@@ -72,7 +72,7 @@ public class DataDaemon implements Runnable {
 			}else if(cmd.contentEquals("NewAddressBook")) {
 				data.createAddressBook(args);
 				System.out.println("Created: " + args);
-				send("NewAddressBook[result=succeeded,name=" + args + "]");
+				send("NewAddressBook[result=succeeded,name=" + args + "]\n");
 			}
 		} else if (line.equals("Close")) {
 			stop();

@@ -4,13 +4,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows;
 
 namespace RubricaXMLViewer.AddressBook.Data.Network
 {
 
     internal static class AsyncClient
     {
-        public static ConcurrentQueue<string> messageQueue { get; } = new ConcurrentQueue<string>();
 
         private const int remotePort = 8192;
         private const string remoteAddress = "127.0.0.1";
@@ -33,11 +33,23 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
 
         }
 
+        public static string GetResponse()
+        {
+            return response;
+        }
+
         private static void ConnectCallback(IAsyncResult ar)
         {
-            Socket client = (Socket)ar.AsyncState;
-            client.EndConnect(ar);
-            connectionDone.Set();
+            try
+            {
+                Socket client = (Socket)ar.AsyncState;
+                client.EndConnect(ar);
+                connectionDone.Set();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
 
         public static void Send(string data)
@@ -71,17 +83,25 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
 
                 if (bytesRead > 0)
                 {
-                    state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
-
-                    c.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                        new AsyncCallback(ReceiveCallback), state);
+                    string data = Encoding.ASCII.GetString(state.buffer, 0, bytesRead);
+                    MessageBox.Show("Data is " + data);
+                    state.sb.Append(data);
+                    if (!data.Contains("\n"))
+                    {
+                        c.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                            new AsyncCallback(ReceiveCallback), state);
+                    }
+                    else
+                    {
+                        response = state.sb.ToString();
+                        receiveDone.Set();
+                    }
                 }
                 else
                 {
                     if (state.sb.Length > 1)
                     {
-                        response = state.sb.ToString();
-                        messageQueue.Enqueue(response);
+                        response = state.sb.ToString().Replace("\n", "");
                     }
                     receiveDone.Set();
                 }
@@ -92,7 +112,7 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
             }
         }
 
-        public static void Receive(out string msg)
+        public static void Receive()
         {
             try
             {
@@ -106,6 +126,7 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
             {
                 Console.WriteLine(e.ToString());
             }
+            Console.WriteLine(response);
         }
 
         public static void Close()

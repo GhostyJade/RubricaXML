@@ -2,7 +2,7 @@
 using RubricaXMLViewer.AddressBook.UI;
 using RubricaXMLViewer.AddressBook.Utils;
 using System.Windows;
-using System.Windows.Media;
+using System.Threading;
 
 namespace RubricaXMLViewer
 {
@@ -11,22 +11,20 @@ namespace RubricaXMLViewer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool running = false;
 
-        private UIProcessor uiProcessor;
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            uiProcessor.Update();
-            base.OnRender(drawingContext);
-        }
+        private Thread uiThread;
 
         public MainWindow()
         {
             NetworkManager.Instance.Initialize();
             InitializeComponent();
-            uiProcessor = new UIProcessor(this);
+            UIProcessor.Instance.Init(this);
             Entries.ItemsSource = Instances.Entries;
             AddressBooks.ItemsSource = Instances.Books;
+            uiThread = new Thread(new ThreadStart(() => { while (running) { UIProcessor.Instance.Update(); } }));
+            running = true;
+            uiThread.Start();
         }
 
         private void OnNewEntryAdd_Click(object sender, RoutedEventArgs e)
@@ -37,6 +35,12 @@ namespace RubricaXMLViewer
         private void OnNewAddressBook_Click(object sender, RoutedEventArgs e)
         {
             new NewAddressBook().Show();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            running = false;
+            uiThread.Join();
         }
     }
 }

@@ -83,7 +83,7 @@ public class DataDaemon implements Runnable {
 
 	private void send(String message) {
 		try {
-			out.writeBytes(message);
+			out.write(message.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

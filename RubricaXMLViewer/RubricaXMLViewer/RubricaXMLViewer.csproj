@@ -68,6 +68,8 @@
     <Compile Include="AddressBook\Data\Network\AsyncClient.cs" />
     <Compile Include="AddressBook\Data\Network\NetworkManager.cs" />
     <Compile Include="AddressBook\Data\Property.cs" />
+    <Compile Include="AddressBook\UI\UIEvent.cs" />
+    <Compile Include="AddressBook\UI\UIProcessor.cs" />
     <Compile Include="AddressBook\Utils\Extensions.cs" />
     <Compile Include="AddressBook\Utils\I18n.cs" />
     <Compile Include="AddressBook\Utils\Instances.cs" />

@@ -49,8 +49,30 @@ public class FileManager {
 			c.addAddressBook(new AddressBook(i, bookName));
 			NodeList entries = book.getChildNodes();
 			for(int j = 0; j < entries.getLength(); j++) {
-				Node entry = entries.item(i);
-				
+				Node entry = entries.item(j);
+				if(entry.getNodeType() != Node.TEXT_NODE) {
+					int id = Integer.valueOf(entry.getAttributes().getNamedItem("id").getNodeValue());
+					NodeList subNodes = entry.getChildNodes();
+					String name = null, surname = null, phone = null;
+					for(int k = 0; k < subNodes.getLength(); k++) {
+						Node attribute = subNodes.item(k);
+						if(attribute.getNodeType()!=Node.TEXT_NODE) {
+							String value = attribute.getTextContent();
+							switch(attribute.getNodeName()) {
+							case "name":
+								name=value;
+								break;
+							case "surname":
+								surname=value;
+								break;
+							case "phone":
+								phone=value;
+								break;
+							}
+						}
+					}
+					c.addExistingContact(bookName, new Contact(id, name, surname, phone));
+				}
 			}
 		}
 	}

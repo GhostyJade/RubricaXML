@@ -26,6 +26,7 @@ namespace RubricaXMLViewer
             Entries.ItemsSource = Instances.Entries;
             AddressBooks.ItemsSource = Instances.Books;
             AddressBooks.ContextMenu = AddressBooks.Resources["TreeViewRightClick"] as ContextMenu;
+            Entries.ContextMenu = Entries.Resources["EditEntryMenu"] as ContextMenu;
             running = true;
 
             uiThread = new Thread(() =>
@@ -57,6 +58,11 @@ namespace RubricaXMLViewer
         private void AddressBooks_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             selectedBook = AddressBooks.SelectedItem.ToString();
+        }
+
+        private void Entries_Selected(object sender, RoutedEventArgs e)
+        {
+            System.Console.WriteLine(Instances.Entries[Entries.SelectedIndex]);
         }
     }
 }

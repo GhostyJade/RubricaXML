@@ -24,6 +24,10 @@ public class Container implements XMLSerializable {
 	public Contact addNewEntry(String bookName, String data) {
 		return books.get(bookName).addEntry(data);
 	}
+	
+	public void addExistingContact(String bookname, Contact data) {
+		books.get(bookname).addEntry(data);
+	}
 
 	@Override
 	public Element toXML(Document d) {

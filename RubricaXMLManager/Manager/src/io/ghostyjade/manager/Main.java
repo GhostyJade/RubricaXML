@@ -17,8 +17,7 @@ public class Main {
 			int port = Integer.valueOf(args[2]);
 			DataDaemon daemon = new DataDaemon(address, port);
 			Data d = new Data();
-			//d.setFromExistingContainer(FileManager.read());
-			//return;
+			d.setFromExistingContainer(FileManager.read());
 			daemon.setDataClass(d);
 			daemon.start();
 		} else {

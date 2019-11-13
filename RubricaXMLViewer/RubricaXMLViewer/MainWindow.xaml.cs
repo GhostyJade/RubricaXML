@@ -1,8 +1,8 @@
 ﻿using RubricaXMLViewer.AddressBook.Data.Network;
 using RubricaXMLViewer.AddressBook.UI;
 using RubricaXMLViewer.AddressBook.Utils;
-using System.Windows;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace RubricaXMLViewer
@@ -26,8 +26,15 @@ namespace RubricaXMLViewer
             Entries.ItemsSource = Instances.Entries;
             AddressBooks.ItemsSource = Instances.Books;
             AddressBooks.ContextMenu = AddressBooks.Resources["TreeViewRightClick"] as ContextMenu;
-            uiThread = new Thread(new ThreadStart(() => { while (running) { UIProcessor.Instance.Update(); } }));
             running = true;
+
+            uiThread = new Thread(() =>
+            {
+                while (running)
+                {
+                    UIProcessor.Instance.Update();
+                }
+            });
             uiThread.Start();
         }
 

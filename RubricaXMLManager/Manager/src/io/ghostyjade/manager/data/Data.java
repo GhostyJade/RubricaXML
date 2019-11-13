@@ -1,6 +1,7 @@
 package io.ghostyjade.manager.data;
 
 import io.ghostyjade.manager.addressbook.AddressBook;
+import io.ghostyjade.manager.addressbook.Contact;
 import io.ghostyjade.manager.addressbook.Container;
 
 public class Data {
@@ -23,8 +24,8 @@ public class Data {
 		container.addAddressBook(new AddressBook(0, name));
 	}
 
-	public void addNewEntry(String bookName, String data) {
-		container.addNewEntry(bookName, data);
+	public Contact addNewEntry(String bookName, String data) {
+		return container.addNewEntry(bookName, data);
 	}
 
 }

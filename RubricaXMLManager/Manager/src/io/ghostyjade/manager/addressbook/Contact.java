@@ -28,6 +28,14 @@ public class Contact implements XMLSerializable{
 	
 	public Contact() {
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getSurname() {
+		return surname;
+	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

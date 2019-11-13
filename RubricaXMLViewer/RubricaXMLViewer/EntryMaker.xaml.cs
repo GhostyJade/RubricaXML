@@ -35,8 +35,6 @@ namespace RubricaXMLViewer
             }
             else
             {
-                //FIXME AddressBook.Data.AddressBookEntry ent = new AddressBook.Data.AddressBookEntry(name, surname, phoneNumber, "", "", "", "", "", "");
-                //TODO DataListener.Instance.SendNewAddressBookEntry(ent);
                 AddressBookEntry entry = new AddressBookEntry()
                 {
                     Name = name,
@@ -44,6 +42,7 @@ namespace RubricaXMLViewer
                     PhoneNumber = phoneNumber
                 };
                 NetworkManager.Instance.SendNewAddressBookEntry(entry, bookName);
+                NetworkManager.Instance.Receive();
             }
         }
     }

@@ -42,17 +42,19 @@ public class AddressBook implements XMLSerializable {
 		return root;
 	}
 
-	public void addEntry(String data) {
-		addEntry(data.split(","));
+	public Contact addEntry(String data) {
+		return addEntry(data.split(","));
 	}
 
-	private void addEntry(String[] parts) {
+	private Contact addEntry(String[] parts) {
 		Map<String, String> data = new HashMap<String, String>();
 		for (String s : parts) {
 			String[] p = s.split("=");
 			data.put(p[0], p[1]);
 		}
-		contacts.add(new Contact(lastId++, data.get("name"), data.get("surname"), data.get("phone")));
+		Contact c = new Contact(lastId++, data.get("name"), data.get("surname"), data.get("phone"));
+		contacts.add(c);
+		return c;
 	}
 
 	public void deleteEntry(String phone) {

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import io.ghostyjade.manager.addressbook.Contact;
 import io.ghostyjade.manager.file.FileManager;
 
 public class DataDaemon implements Runnable {
@@ -60,22 +61,24 @@ public class DataDaemon implements Runnable {
 
 	private void processPacket(String line) {
 		if (line.contains("[")) {
-			String cmd=line.substring(0, line.indexOf("["));
-			String args = line.substring(line.indexOf("[")+1, line.indexOf("]"));
+			String cmd = line.substring(0, line.indexOf("["));
+			String args = line.substring(line.indexOf("[") + 1, line.indexOf("]"));
 			line = line.replace("]", "");
 			System.out.println("Received command: " + cmd);
 			if (cmd.contentEquals("NewEntry")) {
-				String bookName = line.substring(line.indexOf("=")+1, line.indexOf(","));
-				//args=args.replace(bookName, "");
-				System.out.println("BN=" + bookName);
-				System.out.println("args: " + args);
-				System.out.println(bookName);
-				data.addNewEntry("bn="+bookName, args);
-				System.out.println("Saved entry");
-			}else if(cmd.contentEquals("NewAddressBook")) {
+				String bookName = line.substring(line.indexOf("=") + 1, line.indexOf(","));
+				Contact c = data.addNewEntry(bookName, args);
+				System.out.println("Saved entry to " + bookName + " as"); //TODO
+				if (c != null) {
+					send("NewEntry[result=succeeded,bn=" + bookName + ",name=" + c.getName() + ",surname="
+							+ c.getSurname() + ",phone=" + c.getPhoneNumber() + "]");
+				} else {
+					send("NewEntry[result=failed,bn=" + bookName + "]");
+				}
+			} else if (cmd.contentEquals("NewAddressBook")) {
 				data.createAddressBook(args);
 				System.out.println("Created: " + args);
-				send("NewAddressBook[result=succeeded,name=" + args + "]\n");
+				send("NewAddressBook[result=succeeded,name=" + args + "]");
 			}
 		} else if (line.equals("Close")) {
 			stop();
@@ -86,7 +89,7 @@ public class DataDaemon implements Runnable {
 
 	private void send(String message) {
 		try {
-			out.write(message.getBytes());
+			out.write((message+"\n").getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,9 +1,5 @@
 ﻿using RubricaXMLViewer.AddressBook.UI;
-using RubricaXMLViewer.AddressBook.Utils;
-using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Windows;
 
 namespace RubricaXMLViewer.AddressBook.Data.Network
 {
@@ -36,7 +32,6 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
                 if (msg != null)
                 {
                     ProcessMessage(msg, out string action, out string[] args);
-                    Console.WriteLine(msg);
                     UIProcessor.Instance.ParseAction(action, args);
                 }
             })).Start();
@@ -45,7 +40,7 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
         private void ProcessMessage(string message, out string action, out string[] args)
         {
             action = message.Substring(0, message.IndexOf("["));
-            args = message.Substring(message.IndexOf("[") + 1, message.LastIndexOf("]") - message.IndexOf("[")-1).Split(',');
+            args = message.Substring(message.IndexOf("[") + 1, message.LastIndexOf("]") - message.IndexOf("[") - 1).Split(',');
         }
 
         public void SendCloseMessage()

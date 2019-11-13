@@ -1,5 +1,6 @@
 ﻿using RubricaXMLViewer.AddressBook.Data.Network;
 using RubricaXMLViewer.AddressBook.Utils;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,6 +26,7 @@ namespace RubricaXMLViewer
             {
                 NetworkManager.Instance.SendNewAddressBook(name);
                 NetworkManager.Instance.Receive();
+                Close();
             }
             else
             {

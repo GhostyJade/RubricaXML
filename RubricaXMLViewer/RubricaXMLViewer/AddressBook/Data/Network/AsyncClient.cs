@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Windows;
 
 namespace RubricaXMLViewer.AddressBook.Data.Network
 {
@@ -125,7 +123,6 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
             {
                 Console.WriteLine(e.ToString());
             }
-            Console.WriteLine(response);
         }
 
         public static void Close()

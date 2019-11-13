@@ -21,11 +21,8 @@ public class Container implements XMLSerializable {
 		books.put(a.getName(), a);
 	}
 
-	public void addNewEntry(String bookName, String data) {
-		books.values().forEach((e) -> {
-			System.out.println(e);
-		});
-		// books.get(bookName).addEntry(data);
+	public Contact addNewEntry(String bookName, String data) {
+		return books.get(bookName).addEntry(data);
 	}
 
 	@Override

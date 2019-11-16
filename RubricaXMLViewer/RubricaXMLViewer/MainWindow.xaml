@@ -16,8 +16,12 @@
             </MenuItem>
         </Menu>
         <Grid x:Name="Container" Margin="0,18,0,0">
-            <DataGrid x:Name="Entries" Margin="100,0,0,0">
-
+            <DataGrid x:Name="Entries" Margin="100,0,0,0" SelectionChanged="Entries_Selected">
+                <DataGrid.Resources>
+                    <ContextMenu x:Key="EditEntryMenu" StaysOpen="True">
+                        
+                    </ContextMenu>
+                </DataGrid.Resources>
             </DataGrid>
             <TreeView x:Name="AddressBooks" HorizontalAlignment="Left" Height="401" VerticalAlignment="Top" Width="100" SelectedItemChanged="AddressBooks_SelectedItemChanged">
                 <TreeView.Resources>

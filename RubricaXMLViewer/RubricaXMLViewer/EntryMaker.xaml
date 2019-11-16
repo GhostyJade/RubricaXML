@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RubricaXMLViewer"
         mc:Ignorable="d"
-        Title="EntryMaker" Height="282.511" Width="246.861">
+        Title="EntryMaker" Height="282.511" Width="246.861" ResizeMode="NoResize">
     <Grid>
         <Grid Background="#FF1F1F1F">
             <Button x:Name="BtnSave" Content="Save" Margin="0" Click="BtnSave_Click" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="48" Background="Black" BorderBrush="#FF8A00FF" Foreground="White"/>

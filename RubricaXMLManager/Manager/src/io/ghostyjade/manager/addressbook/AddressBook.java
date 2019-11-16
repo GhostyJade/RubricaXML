@@ -45,6 +45,10 @@ public class AddressBook implements XMLSerializable {
 	public Contact addEntry(String data) {
 		return addEntry(data.split(","));
 	}
+	
+	public void addEntry(Contact c) {
+		contacts.add(c);
+	}
 
 	private Contact addEntry(String[] parts) {
 		Map<String, String> data = new HashMap<String, String>();

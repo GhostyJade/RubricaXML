@@ -1,19 +1,21 @@
-﻿using System;
-
-namespace RubricaXMLViewer.AddressBook.UI
+﻿namespace RubricaXMLViewer.AddressBook.UI
 {
     public class UIEvent
     {
-
-        public event Action Action;
-        public event Func<bool> Condition;
-        public bool Completed { get; private set; } = false;
+        public event System.Action Action;
+        public event System.Func<bool> Condition;
+        private volatile bool Completed = false;
 
         public UIEvent() { }
 
         public void MarkAsCompleted()
         {
             Completed = true;
+        }
+
+        public bool IsCompleted()
+        {
+            return Completed;
         }
 
         public void PerformAction()

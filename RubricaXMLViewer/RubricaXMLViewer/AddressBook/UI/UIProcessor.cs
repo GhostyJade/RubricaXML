@@ -1,6 +1,6 @@
 ﻿using RubricaXMLViewer.AddressBook.Utils;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace RubricaXMLViewer.AddressBook.UI
@@ -10,31 +10,42 @@ namespace RubricaXMLViewer.AddressBook.UI
 
         public static UIProcessor Instance { get; private set; } = new UIProcessor();
 
-        private ConcurrentBag<UIEvent> UIEvents = new ConcurrentBag<UIEvent>();
-        private MainWindow mainWindow;
+        private static volatile ObservableCollection<UIEvent> UIEvents = new ObservableCollection<UIEvent>();
 
-        public void Init(MainWindow window)
+        public void Init()
         {
-            mainWindow = window;
+            UIEvents.CollectionChanged += (sender, args) =>
+            {
+                Update();
+            };
+            UIEvent e = new UIEvent();
+            e.Action += () => { e.MarkAsCompleted(); };
+            e.Condition += () => true;
+            UIEvents.Add(e);
         }
 
         public void Update()
         {
-            foreach (UIEvent e in UIEvents)
-            {
-                if (e.ActionConditions())
-                    e.PerformAction();
-            }
-            List<UIEvent> eventsToMaintain = new List<UIEvent>();
+            /*List<UIEvent> eventsToMaintain = new List<UIEvent>();
             bool success = UIEvents.TryTake(out UIEvent result);
             while (success)
             {
-                if (!result.Completed)
+                if (!result.IsCompleted())
                     eventsToMaintain.Add(result);
                 success = UIEvents.TryTake(out result);
             }
+            eventsToMaintain.ForEach(e => UIEvents.Add(e));*/
 
-            eventsToMaintain.ForEach(e => UIEvents.Add(e));
+            foreach (UIEvent e in UIEvents)
+            {
+                if (!e.IsCompleted())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        e.PerformAction();
+                    });
+                }
+            }
         }
 
         public void AddAction(UIEvent e)
@@ -45,10 +56,10 @@ namespace RubricaXMLViewer.AddressBook.UI
         public void ParseAction(string action, params string[] args)
         {
             Dictionary<string, string> data = ParseData(args);
+            UIEvent e = new UIEvent();
             switch (action)
             {
                 case "NewAddressBook":
-                    UIEvent e = new UIEvent();
                     if (data.ContainsKey("result"))
                     {
                         if (data.TryGetValue("result", out string val))
@@ -78,10 +89,8 @@ namespace RubricaXMLViewer.AddressBook.UI
                             e.Condition += () => true;
                         }
                     }
-                    UIEvents.Add(e);
                     break;
                 case "NewEntry":
-                    UIEvent nE = new UIEvent();
                     if (data.ContainsKey("result"))
                     {
 
@@ -95,7 +104,7 @@ namespace RubricaXMLViewer.AddressBook.UI
                                 data.TryGetValue("surname", out string surname);
                                 data.TryGetValue("phone", out string phone);
                                 System.Console.WriteLine("BookName={0}, Name={1}, Surname={2}, Phone={3}", bookName, name, surname, phone);
-                                nE.Action += () =>
+                                e.Action += () =>
                                 {
                                     Application.Current.Dispatcher.Invoke(delegate
                                     {
@@ -107,15 +116,15 @@ namespace RubricaXMLViewer.AddressBook.UI
                                         });
                                         System.Console.WriteLine("Items: {0}", Instances.Entries.Count);
                                     });
-                                    nE.MarkAsCompleted();
+                                    e.MarkAsCompleted();
                                 };
-                                nE.Condition += () => true;
+                                e.Condition += () => true;
                             }
                         }
                     }
-                    UIEvents.Add(nE);
                     break;
             }
+            UIEvents.Add(e);
         }
 
         private Dictionary<string, string> ParseData(string[] args)
@@ -128,6 +137,11 @@ namespace RubricaXMLViewer.AddressBook.UI
             }
 
             return data;
+        }
+
+        public void Exit()
+        {
+            // UIEvents.Dispose();
         }
     }
 }

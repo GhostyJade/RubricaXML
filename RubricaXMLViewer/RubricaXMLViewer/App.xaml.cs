@@ -1,4 +1,5 @@
 ﻿using RubricaXMLViewer.AddressBook.Data.Network;
+using RubricaXMLViewer.AddressBook.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,6 +18,7 @@ namespace RubricaXMLViewer
 
         protected override void OnExit(ExitEventArgs e)
         {
+            UIProcessor.Instance.Exit();
             NetworkManager.Instance.SendCloseMessage();
             NetworkManager.Instance.Close();
             base.OnExit(e);

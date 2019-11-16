@@ -1,7 +1,6 @@
 ﻿using RubricaXMLViewer.AddressBook.Data.Network;
 using RubricaXMLViewer.AddressBook.UI;
 using RubricaXMLViewer.AddressBook.Utils;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,30 +11,16 @@ namespace RubricaXMLViewer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool running = false;
-
         private string selectedBook;
-
-        private Thread uiThread;
 
         public MainWindow()
         {
             NetworkManager.Instance.Initialize();
             InitializeComponent();
-            UIProcessor.Instance.Init(this);
+            UIProcessor.Instance.Init();
             Entries.ItemsSource = Instances.Entries;
             AddressBooks.ItemsSource = Instances.Books;
             AddressBooks.ContextMenu = AddressBooks.Resources["TreeViewRightClick"] as ContextMenu;
-            running = true;
-
-            uiThread = new Thread(() =>
-            {
-                while (running)
-                {
-                    UIProcessor.Instance.Update();
-                }
-            });
-            uiThread.Start();
         }
 
         private void OnNewEntryAdd_Click(object sender, RoutedEventArgs e)
@@ -49,10 +34,7 @@ namespace RubricaXMLViewer
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            running = false;
-            uiThread.Join();
-        }
+        { }
 
         private void AddressBooks_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 import io.ghostyjade.manager.addressbook.Contact;
 import io.ghostyjade.manager.file.FileManager;
@@ -68,17 +69,21 @@ public class DataDaemon implements Runnable {
 			if (cmd.contentEquals("NewEntry")) {
 				String bookName = line.substring(line.indexOf("=") + 1, line.indexOf(","));
 				Contact c = data.addNewEntry(bookName, args);
-				System.out.println("Saved entry to " + bookName + " as"); //TODO
+				System.out.println("Saved entry to " + bookName + " as " + c.getName() + " " + c.getSurname() + " "
+						+ c.getPhoneNumber());
 				if (c != null) {
 					send("NewEntry[result=succeeded,bn=" + bookName + ",name=" + c.getName() + ",surname="
 							+ c.getSurname() + ",phone=" + c.getPhoneNumber() + "]");
-				} else {
-					send("NewEntry[result=failed,bn=" + bookName + "]");
 				}
 			} else if (cmd.contentEquals("NewAddressBook")) {
 				data.createAddressBook(args);
 				System.out.println("Created: " + args);
 				send("NewAddressBook[result=succeeded,name=" + args + "]");
+			} else if (cmd.contentEquals("ListBooks")) {
+				String booksList = getBooksAsString();
+				send(booksList);
+			} else if(cmd.contentEquals("RequireContacts")) {
+				send(getContactsAsString(args.split("=")[1]));
 			}
 		} else if (line.equals("Close")) {
 			stop();
@@ -87,9 +92,34 @@ public class DataDaemon implements Runnable {
 		}
 	}
 
+	private String getBooksAsString() {
+		StringBuilder sb = new StringBuilder();
+		List<String> books = data.getContainer().getAddressBooksNamesAsList();
+		for (int i = 0; i < books.size(); i++) {
+			sb.append("name").append(i).append("=").append(books.get(i));
+			if (i < books.size() - 1)
+				sb.append(",");
+		}
+		return "BookList[length=" + books.size() + "," + sb.toString() + "]";
+	}
+
+	public String getContactsAsString(String bookName) {
+		StringBuilder sb = new StringBuilder();
+		List<Contact> cs = data.getContainer().getContactsFromAddressBooks(bookName);
+		sb.append("ContactList[length=").append(cs.size()).append(",");
+		for (int i = 0; i < cs.size(); i++) {
+			Contact c = cs.get(i);
+			sb.append("index").append(i).append("=name:").append(c.getName()).append("|surname:").append(c.getSurname()).append("|phone:").append(c.getPhoneNumber());
+			if(i<cs.size()-1)
+				sb.append(",");
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+
 	private void send(String message) {
 		try {
-			out.write((message+"\n").getBytes());
+			out.write((message + "\n").getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

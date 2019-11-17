@@ -1,5 +1,8 @@
 package io.ghostyjade.manager.addressbook;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.w3c.dom.Document;
@@ -28,6 +31,10 @@ public class Container implements XMLSerializable {
 	public void addExistingContact(String bookname, Contact data) {
 		books.get(bookname).addEntry(data);
 	}
+	
+	public List<Contact> getContactsFromAddressBooks(String name){
+		return books.get(name).getContacts();
+	}
 
 	@Override
 	public Element toXML(Document d) {
@@ -36,6 +43,13 @@ public class Container implements XMLSerializable {
 			root.appendChild(addressBook.toXML(d));
 		}
 		return root;
+	}
+	
+	public List<String> getAddressBooksNamesAsList() {
+		List<String> names = new ArrayList<String>();
+		for(Entry<String, AddressBook> pair : books.entrySet())
+			names.add(pair.getKey());
+		return names;
 	}
 
 }

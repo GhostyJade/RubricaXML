@@ -57,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddressBook\Utils\ObservableStack.cs" />
+    <Compile Include="Windows\ChangeAddressBook.xaml.cs">
+      <DependentUpon>ChangeAddressBook.xaml</DependentUpon>
+    </Compile>
     <Page Include="EntryMaker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,13 +89,17 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NewAddressBook.xaml">
+    <Page Include="Windows\NewAddressBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ChangeAddressBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewAddressBook.xaml.cs">
+    <Compile Include="Windows\NewAddressBook.xaml.cs">
       <DependentUpon>NewAddressBook.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

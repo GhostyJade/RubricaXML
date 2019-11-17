@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace RubricaXMLViewer.AddressBook.Utils
 {
@@ -29,6 +27,14 @@ namespace RubricaXMLViewer.AddressBook.Utils
             }
             textContent = txt;
             return true;
+        }
+
+        public static void AddRange<T>(this ObservableCollection<T> src, IList<T> list)
+        {
+            foreach (T v in list)
+            {
+                src.Add(v);
+            }
         }
     }
 }

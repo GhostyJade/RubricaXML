@@ -1,6 +1,7 @@
-﻿using RubricaXMLViewer.AddressBook.Utils;
+﻿using RubricaXMLViewer.AddressBook.Data;
+using RubricaXMLViewer.AddressBook.Utils;
+using RubricaXMLViewer.Windows;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace RubricaXMLViewer.AddressBook.UI
@@ -10,7 +11,8 @@ namespace RubricaXMLViewer.AddressBook.UI
 
         public static UIProcessor Instance { get; private set; } = new UIProcessor();
 
-        private static volatile ObservableCollection<UIEvent> UIEvents = new ObservableCollection<UIEvent>();
+        //private ObservableCollection<UIEvent> UIEvents = new ObservableCollection<UIEvent>();
+        private ObservableStack<UIEvent> UIEvents = new ObservableStack<UIEvent>();
 
         public void Init()
         {
@@ -18,39 +20,22 @@ namespace RubricaXMLViewer.AddressBook.UI
             {
                 Update();
             };
-            UIEvent e = new UIEvent();
-            e.Action += () => { e.MarkAsCompleted(); };
-            e.Condition += () => true;
-            UIEvents.Add(e);
         }
 
         public void Update()
         {
-            /*List<UIEvent> eventsToMaintain = new List<UIEvent>();
-            bool success = UIEvents.TryTake(out UIEvent result);
-            while (success)
+            /*for (int i = 0; i < UIEvents.Count; i++)
             {
-                if (!result.IsCompleted())
-                    eventsToMaintain.Add(result);
-                success = UIEvents.TryTake(out result);
-            }
-            eventsToMaintain.ForEach(e => UIEvents.Add(e));*/
-
-            foreach (UIEvent e in UIEvents)
-            {
-                if (!e.IsCompleted())
+                UIEvents[i].PerformAction();
+                if (UIEvents[i].IsCompleted())
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        e.PerformAction();
-                    });
+                    UIEvents.RemoveAt(i);
                 }
+            }*/
+            while (UIEvents.Count > 0)
+            {
+                UIEvents.Pop().PerformAction();
             }
-        }
-
-        public void AddAction(UIEvent e)
-        {
-            UIEvents.Add(e);
         }
 
         public void ParseAction(string action, params string[] args)
@@ -67,26 +52,20 @@ namespace RubricaXMLViewer.AddressBook.UI
                             if (val == "succeeded")
                             {
                                 data.TryGetValue("name", out string name);
-                                e.Action += () =>
+                                e.SetAction(() =>
                                   {
-                                      Application.Current.Dispatcher.Invoke(
-                                          delegate
-                                          {
-                                              Instances.Books.Add(name);
-                                          });
+                                      MessageBox.Show($"Address book {name} successfully created.");
                                       e.MarkAsCompleted();
-                                  };
-                                e.Condition += () => true;
+                                  });
                             }
                             else
                             {
-                                e.Action += () =>
+                                e.SetAction(() =>
                                 {
                                     MessageBox.Show("Failed to create new address book");
                                     e.MarkAsCompleted();
-                                };
+                                });
                             }
-                            e.Condition += () => true;
                         }
                     }
                     break;
@@ -96,35 +75,79 @@ namespace RubricaXMLViewer.AddressBook.UI
 
                         if (data.TryGetValue("result", out string value))
                         {
-                            System.Console.WriteLine("Value=" + value);
                             if (value == "succeeded")
                             {
                                 data.TryGetValue("bn", out string bookName);
                                 data.TryGetValue("name", out string name);
                                 data.TryGetValue("surname", out string surname);
                                 data.TryGetValue("phone", out string phone);
-                                System.Console.WriteLine("BookName={0}, Name={1}, Surname={2}, Phone={3}", bookName, name, surname, phone);
-                                e.Action += () =>
-                                {
-                                    Application.Current.Dispatcher.Invoke(delegate
-                                    {
-                                        Instances.Entries.Add(new Data.AddressBookEntry()
-                                        {
-                                            Name = name,
-                                            Surname = surname,
-                                            PhoneNumber = phone
-                                        });
-                                        System.Console.WriteLine("Items: {0}", Instances.Entries.Count);
-                                    });
-                                    e.MarkAsCompleted();
-                                };
-                                e.Condition += () => true;
+                                e.SetAction(() =>
+                               {
+                                   MainWindow.Instance.AddEntry(new AddressBookEntry()
+                                   {
+                                       Name = name,
+                                       Surname = surname,
+                                       PhoneNumber = phone
+                                   });
+                                   e.MarkAsCompleted();
+                               });
                             }
                         }
                     }
                     break;
+                case "BookList":
+                    if (data.TryGetValue("length", out string booksLengthString))
+                    {
+                        List<string> bookNames = new List<string>();
+                        if (int.TryParse(booksLengthString, out int length))
+                        {
+                            for (int i = 0; i < length; i++)
+                            {
+                                data.TryGetValue("name" + i, out string book);
+                                bookNames.Add(book);
+                            }
+                        }
+                        e.SetAction(() =>
+                       {
+                           new ChangeAddressBook(bookNames).Show();
+                           e.MarkAsCompleted();
+                       });
+                    }
+                    break;
+                case "ContactList":
+                    if (data.TryGetValue("length", out string lengthString))
+                    {
+                        List<AddressBookEntry> entries = new List<AddressBookEntry>();
+                        if (int.TryParse(lengthString, out int length))
+                        {
+                            for (int i = 0; i < length; i++)
+                            {
+                                if (data.TryGetValue("index" + i, out string part))
+                                {
+                                    Dictionary<string, string> entryArgsDict = new Dictionary<string, string>();
+                                    foreach (string s in part.Split('|'))
+                                    {
+                                        string[] entryArgs = s.Split(':');
+                                        entryArgsDict.Add(entryArgs[0], entryArgs[1]);
+                                    }
+                                    entries.Add(new AddressBookEntry()
+                                    {
+                                        Name = entryArgsDict.GetData("name"),
+                                        Surname = entryArgsDict.GetData("surname"),
+                                        PhoneNumber = entryArgsDict.GetData("phone"),
+                                    });
+                                }
+                            }
+                        }
+                        e.SetAction(() =>
+                        {
+                            MainWindow.Instance.SetData(entries);
+                            e.MarkAsCompleted();
+                        });
+                    }
+                    break;
             }
-            UIEvents.Add(e);
+            UIEvents.Push(e);
         }
 
         private Dictionary<string, string> ParseData(string[] args)
@@ -137,11 +160,6 @@ namespace RubricaXMLViewer.AddressBook.UI
             }
 
             return data;
-        }
-
-        public void Exit()
-        {
-            // UIEvents.Dispose();
         }
     }
 }

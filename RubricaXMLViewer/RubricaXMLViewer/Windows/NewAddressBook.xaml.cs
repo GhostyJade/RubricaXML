@@ -1,11 +1,10 @@
 ﻿using RubricaXMLViewer.AddressBook.Data.Network;
 using RubricaXMLViewer.AddressBook.Utils;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RubricaXMLViewer
+namespace RubricaXMLViewer.Windows
 {
     /// <summary>
     /// Interaction logic for NewAddressBook.xaml
@@ -13,7 +12,7 @@ namespace RubricaXMLViewer
     public partial class NewAddressBook : Window
     {
 
-        private SolidColorBrush ff8a00ff = new SolidColorBrush(new Color() { R = 138, G = 0, B = 255, A = 255 });
+        private readonly SolidColorBrush FF8A00FF = new SolidColorBrush(new Color() { R = 138, G = 0, B = 255, A = 255 });
 
         public NewAddressBook()
         {
@@ -37,10 +36,10 @@ namespace RubricaXMLViewer
 
         private void TxtAddressBookName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (txtAddressBookName.BorderBrush != ff8a00ff)
+            if (txtAddressBookName.BorderBrush != FF8A00FF)
             {
                 lblNameError.Visibility = Visibility.Hidden;
-                txtAddressBookName.BorderBrush = ff8a00ff;
+                txtAddressBookName.BorderBrush = FF8A00FF;
             }
         }
     }

@@ -13,23 +13,17 @@
                     <MenuItem Header="New entry" HorizontalAlignment="Left" Click="OnNewEntryAdd_Click" Margin="0,0,-1.835,0" Width="185"/>
                     <MenuItem Header="New Address Book" HorizontalAlignment="Left" Click="OnNewAddressBook_Click" Height="22" Width="185"/>
                 </MenuItem>
+                <MenuItem Header="Change Book" Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>
         <Grid x:Name="Container" Margin="0,18,0,0">
-            <DataGrid x:Name="Entries" Margin="100,0,0,0" SelectionChanged="Entries_Selected">
+            <DataGrid x:Name="Entries" SelectionChanged="Entries_SelectionChanged">
                 <DataGrid.Resources>
                     <ContextMenu x:Key="EditEntryMenu" StaysOpen="True">
                         
                     </ContextMenu>
                 </DataGrid.Resources>
             </DataGrid>
-            <TreeView x:Name="AddressBooks" HorizontalAlignment="Left" Height="401" VerticalAlignment="Top" Width="100" SelectedItemChanged="AddressBooks_SelectedItemChanged">
-                <TreeView.Resources>
-                    <ContextMenu x:Key="TreeViewRightClick" StaysOpen="True">
-                        <MenuItem Header="Add new Entry" Click="OnNewEntryAdd_Click"/>
-                    </ContextMenu>
-                </TreeView.Resources>
-            </TreeView>
         </Grid>
     </Grid>
 </Window>

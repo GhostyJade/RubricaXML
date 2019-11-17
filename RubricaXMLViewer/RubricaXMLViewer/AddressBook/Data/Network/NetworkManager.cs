@@ -43,6 +43,11 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
             args = message.Substring(message.IndexOf("[") + 1, message.LastIndexOf("]") - message.IndexOf("[") - 1).Split(',');
         }
 
+        public void RequireContactList(string name)
+        {
+            Send($"RequireContacts[name={name}]");
+        }
+
         public void SendCloseMessage()
         {
             Send("Close");
@@ -68,6 +73,11 @@ namespace RubricaXMLViewer.AddressBook.Data.Network
         {
             string data = string.Format("NewAddressBook[{0}]", name);
             Send(data);
+        }
+
+        public void AskForAddressBooks()
+        {
+            Send("ListBooks[]");
         }
 
     }

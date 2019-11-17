@@ -79,4 +79,8 @@ public class AddressBook implements XMLSerializable {
 		return "Name: " + name;
 	}
 
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+
 }

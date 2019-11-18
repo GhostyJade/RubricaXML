@@ -11,31 +11,21 @@ namespace RubricaXMLViewer.AddressBook.UI
 
         public static UIProcessor Instance { get; private set; } = new UIProcessor();
 
-        //private ObservableCollection<UIEvent> UIEvents = new ObservableCollection<UIEvent>();
-        private ObservableStack<UIEvent> UIEvents = new ObservableStack<UIEvent>();
-
+        private ConcurrentObservableCollection<UIEvent> UIEvents = new ConcurrentObservableCollection<UIEvent>();
+        
         public void Init()
         {
             UIEvents.CollectionChanged += (sender, args) =>
             {
-                Update();
-            };
-        }
-
-        public void Update()
-        {
-            /*for (int i = 0; i < UIEvents.Count; i++)
-            {
-                UIEvents[i].PerformAction();
-                if (UIEvents[i].IsCompleted())
+                for (int i = 0; i < UIEvents.Count; i++)
                 {
-                    UIEvents.RemoveAt(i);
+                    if (UIEvents[i].IsCompleted())
+                        UIEvents.RemoveAt(i);
+                    else
+                        UIEvents[i].PerformAction();
                 }
-            }*/
-            while (UIEvents.Count > 0)
-            {
-                UIEvents.Pop().PerformAction();
-            }
+                return;
+            };
         }
 
         public void ParseAction(string action, params string[] args)
@@ -147,7 +137,7 @@ namespace RubricaXMLViewer.AddressBook.UI
                     }
                     break;
             }
-            UIEvents.Push(e);
+            UIEvents.Add(e);
         }
 
         private Dictionary<string, string> ParseData(string[] args)

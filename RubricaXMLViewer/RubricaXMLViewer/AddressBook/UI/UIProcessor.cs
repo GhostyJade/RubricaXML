@@ -146,6 +146,7 @@ namespace RubricaXMLViewer.AddressBook.UI
             foreach (string s in args)
             {
                 string[] parts = s.Split('=');
+                
                 data.Add(parts[0], parts[1]);
             }
 
